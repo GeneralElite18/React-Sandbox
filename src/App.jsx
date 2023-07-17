@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './App.css';
+import FilmsList from './components/filmList';
 
 //Inheriting from the react library
 class App extends Component {
@@ -47,7 +48,7 @@ class App extends Component {
         <ul>
           {this.mapStrings()}
         </ul>
-        
+        <FilmsList />
       </div>
     );
   }
