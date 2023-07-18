@@ -1,27 +1,18 @@
-import { Component } from 'react';
+import { useState, useEffect } from "react";
+import "./filmsList.css";
 
-class FilmsList extends Component{
-    constructor(){
-        super();
+function FilmsList(props){
+    
+    const [list, setList] = useState([]);
 
-        this.state = {
-            list: []
-        }
-
-        this.mapFilms = this.mapFilms.bind(this);
-        this.getFilms = this.getFilms.bind(this);
-    }
-
-    getFilms(){
+    function getFilms(){
         let link = "https://studioghibliapi-d6fc8.web.app/films"
         fetch(link)
         .then((response) =>{
             return response.json()
         })
         .then((result) => {
-            this.setState({
-                list: result
-            });
+            setList(result);
         })
         .catch((err) => {
             console.error(err);
@@ -29,21 +20,27 @@ class FilmsList extends Component{
         
     }
 
-    componentDidMount(){
-        this.getFilms();
-    }
+    useEffect(() => {
+        getFilms();
+    }, [])
 
-    mapFilms(){
-        let newList = this.state.list.map((item, index) => {
-          let newLi = <li key={index}>{item.title}</li>;
+    function mapFilms(){
+        let newList = list.map((item, index) => {
+          let newLi = <li key={index}>
+            <h3>{item.title}</h3>
+            <p>{item.release_date}</p>
+            <p>Critics: {item.rt_score}%</p>
+            <img src={item.image} alt={item.title + " banner"} />
+            <hr />
+          </li>;
           return newLi;
         });
         return newList;
       }
 
-    render(){
-        return <ul>{this.mapFilms()}</ul>;
-    }
+    
+    return (<ul>{mapFilms()}</ul>);
+    
 }
 
 export default FilmsList;

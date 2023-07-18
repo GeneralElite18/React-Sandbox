@@ -1,0 +1,18 @@
+ul{
+    width: 400px;
+    background-color: rgb(120, 129, 138);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: black 5px 5px 50px;
+}   
+
+li{
+    list-style: none;
+    padding: 1rem 0;
+    color: black;
+    text-align: center;
+}
+
+img{
+    width: 100%;
+}

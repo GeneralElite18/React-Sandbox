@@ -1,57 +1,45 @@
 import { Component } from 'react';
+import { useState } from 'react';
 import './App.css';
 import FilmsList from './components/filmList';
 
 //Inheriting from the react library
-class App extends Component {
+function App(props) {
 
-  constructor(){
-    super();
+  const [list, setList] = useState(["ready","set","GO"]);
+  const [text, setText] = useState("");
 
-    this.state = {
-      list: ["ready", "set", "GO"],
-      text: ""
-    }
-
-    this.mapStrings = this.mapStrings.bind(this);
-    this.updateInput = this.updateInput.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  mapStrings(){
-    let newList = this.state.list.map((item, index) => {
+  function mapStrings(){
+    let newList = list.map((item, index) => {
       let newLi = <li key={index}>{item}</li>;
       return newLi;
     });
     return newList;
   }
 
-  updateInput(event){
-    this.setState({text: event.target.value});
+  function updateInput(event){
+    setText(event.target.value);
   }
 
-  onSubmit(event){
+  function onSubmit(event){
     event.preventDefault();
-    this.setState({
-      list: [...this.state.list, this.state.text]
-    });
+    setList([...list, text]);
   }
 
-  render() {
-    return (
-      <div>
-        <h1>Hello World</h1>
-        <form onSubmit={this.onSubmit}>
-          <input type="text" value={this.state.text} onChange={this.updateInput}/>
-          <button type="submit">Add</button>
-        </form>
-        <ul>
-          {this.mapStrings()}
-        </ul>
-        <FilmsList />
-      </div>
-    );
-  }
+  
+  return (
+    <div>
+      <h1>Hello World</h1>
+      <form onSubmit={onSubmit}>
+        <input type="text" value={text} onChange={updateInput}/>
+        <button type="submit">Add</button>
+      </form>
+      <ul>
+        {mapStrings()}
+      </ul>
+      <FilmsList />
+    </div>
+  );
 }
 
 export default App;
