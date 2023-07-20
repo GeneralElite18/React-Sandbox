@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import {filterFilmsByDirector, getListOf} from "../helpers/film.helpers";
-import "./filmsList.css";
+import {filterFilmsByDirector, getListOf, getFilmStats} from "../helpers/film.helpers";
+import { Link } from "react-router-dom";
+import "../components/filmsList.css";
 
 function FilmsPage(props){
     
@@ -29,9 +30,10 @@ function FilmsPage(props){
     function mapFilms(){
         let newList = filmsByDirector.map((item, index) => {
           let newLi = <li key={index}>
-            <h3>{item.title}</h3>
+            <Link to={`film/${item.id}`}>{item.title}</Link>
             <p>{item.release_date}</p>
             <p>Critics: {item.rt_score}%</p>
+            
             <img src={item.image} alt={item.title + " banner"} />
             <hr />
           </li>;
@@ -42,6 +44,8 @@ function FilmsPage(props){
 
     const filmsByDirector = filterFilmsByDirector(list, searchDirector);
     const directors = getListOf(list, "director");
+
+    const filmStats = getFilmStats(filmsByDirector);
 
     return (
         <div>
@@ -61,6 +65,20 @@ function FilmsPage(props){
                     </select>
                 </div>
             </form>
+            <div>
+                <div>
+                    <span># Of Films: </span>
+                    <span>{filmStats.total}</span>
+                </div>
+                <div>
+                    <span>Average Rating: </span>
+                    <span>{filmStats.avg_score.toFixed(2)}</span>
+                </div>
+                <div>
+                    <span>Latest Film: </span>
+                    <span>{filmStats.latest}</span>
+                </div>
+            </div>
             <ul>{mapFilms()}</ul>
         </div>
     );
