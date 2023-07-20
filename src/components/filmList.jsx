@@ -22,7 +22,7 @@ function FilmsList(props){
 
     useEffect(() => {
         getFilms();
-    }, [])
+    }, []);
 
     function mapFilms(){
         let newList = list.map((item, index) => {
